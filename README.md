@@ -10,7 +10,7 @@
 
 ## About Me
 
-I am a software engineer and security enthusiast with experience in developing tools, performing penetration tests, and building secure applications.  
+I am a software engineer and security enthusiast with expertise in developing tools, performing penetration testing, and building secure applications.  
 Currently working on **OpenVault**, A secure, open-source password manager, 2FA generator, secure notes app, and file locker built with Python.
 
 **Core Interests**
@@ -55,7 +55,14 @@ _Work in Progress – Coming Soon._
 
 ---
 
-## Activity
+## Recent GitHub Activity
+
+<!--START_SECTION:activity-->
+<!--END_SECTION:activity-->
+
+---
+
+## Activity Graph
 
 [![OR-6's GitHub activity graph](https://github-readme-activity-graph.vercel.app/graph?username=OR-6&theme=github-dark)](https://github.com/OR-6/github-readme-activity-graph)
 
@@ -69,17 +76,6 @@ _Work in Progress – Coming Soon._
   </a>
 </div>
 
----
-
-<details>
-  <summary>Recent GitHub Activity</summary>
-
-  <!--START_SECTION:activity-->
-  <!--END_SECTION:activity-->
-</details>
-
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
-
-
