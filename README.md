@@ -58,7 +58,7 @@ _Work in Progress – Coming Soon._
 ## Recent GitHub Activity
 
 <!--RECENT_ACTIVITY:start-->
-1. ⭐ Starred [jigneshis/Firebase-Authentication-Action-Handler](https://github.com/jigneshis/Firebase-Authentication-Action-Handler)
+1. ⭐ Starred [Avaluate/MainDab](https://github.com/Avaluate/MainDab)
 <!--RECENT_ACTIVITY:end-->
 
 ---
