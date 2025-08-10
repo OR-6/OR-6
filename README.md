@@ -76,12 +76,10 @@ _Work in Progress – Coming Soon._
   <summary>Recent GitHub Activity</summary>
 
   <!--START_SECTION:activity-->
-  1. Merged PR in [cyber_x](https://github.com/OR-6/cyber_x)  
-  2. Opened PR in [cyber_x](https://github.com/OR-6/cyber_xo)  
-  3. Commented on issue in [Nil](https://github.com/OR-6/)  
   <!--END_SECTION:activity-->
 </details>
 
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
+
