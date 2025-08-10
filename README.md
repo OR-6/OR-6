@@ -58,7 +58,7 @@ _Work in Progress – Coming Soon._
 ## Recent GitHub Activity
 
 <!--RECENT_ACTIVITY:start-->
-1. ✌️ Released [Version 1.0.0](https://github.com/OR-6/OpenVault/releases/tag/v1.0.0-beta.0) in [OR-6/OpenVault](https://github.com/OR-6/OpenVault)
+1. ⭐ Starred [jigneshis/Firebase-Authentication-Action-Handler](https://github.com/jigneshis/Firebase-Authentication-Action-Handler)
 <!--RECENT_ACTIVITY:end-->
 
 ---
