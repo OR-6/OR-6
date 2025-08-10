@@ -11,14 +11,13 @@
 ## About Me
 
 I am a software engineer and security enthusiast with experience in developing tools, performing penetration tests, and building secure applications.  
-Currently working on **OffsecToolkit**, an open-source Offensive Security toolkit. My work focuses on building innovative solutions in cybersecurity, automation, and development.
+Currently working on **OpenVault**, A secure, open-source password manager, 2FA generator, secure notes app, and file locker built with Python.
 
 **Core Interests**
 - Discord Bot Development  
 - Ethical Hacking & Penetration Testing  
 - Open Source Security Tools  
 - Game Development (Roblox & beyond)  
-- Red Team Operations  
 
 ---
 
@@ -82,4 +81,5 @@ _Work in Progress – Coming Soon._
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
+
 
