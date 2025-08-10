@@ -10,7 +10,7 @@
 
 ## About Me
 
-I am a software engineer and security enthusiast with expertise in developing tools, performing penetration testing, and building secure applications.  
+I am a High School Student and security/software enthusiast with expertise in developing tools and applications.  
 Currently working on **OpenVault**, A secure, open-source password manager, 2FA generator, secure notes app, and file locker built with Python.
 
 **Core Interests**
@@ -80,4 +80,5 @@ _Work in Progress – Coming Soon._
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
+
 
