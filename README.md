@@ -58,7 +58,7 @@ _Work in Progress – Coming Soon._
 ## Recent GitHub Activity
 
 <!--RECENT_ACTIVITY:start-->
-1. ⭐ Starred [AdamHing/RobloxAFKBots](https://github.com/AdamHing/RobloxAFKBots)
+1. ⭐ Starred [TheMalwareGuardian/AIPentestCopilot](https://github.com/TheMalwareGuardian/AIPentestCopilot)
 <!--RECENT_ACTIVITY:end-->
 
 ---
