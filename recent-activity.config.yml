@@ -10,3 +10,5 @@ events:
   - ReleaseEvent
   - CreateEvent
   - DeleteEvent
+  - PublicEvent
+  - MemberEvent
