@@ -1,0 +1,19 @@
+# Recent Activity Action Configuration
+
+# GitHub username
+username: OR-6
+
+# Maximum number of events to show
+max_events: 10
+
+# Include these event types:
+events:
+  - PushEvent
+  - PullRequestEvent
+  - IssuesEvent
+  - IssueCommentEvent
+  - WatchEvent
+  - ForkEvent
+  - ReleaseEvent
+  - CreateEvent
+  - DeleteEvent
