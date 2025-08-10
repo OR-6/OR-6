@@ -58,7 +58,7 @@ _Work in Progress – Coming Soon._
 ## Recent GitHub Activity
 
 <!--RECENT_ACTIVITY:start-->
-1. ⭐ Starred [OR-6/OpenVault](https://github.com/OR-6/OpenVault)
+1. 📖 Created new wiki page [Main-Page](https://github.com/OR-6/OpenVault/wiki/Main-Page) in [OR-6/OpenVault](https://github.com/OR-6/OpenVault)
 <!--RECENT_ACTIVITY:end-->
 
 ---
