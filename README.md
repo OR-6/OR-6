@@ -57,8 +57,8 @@ _Work in Progress – Coming Soon._
 
 ## Recent GitHub Activity
 
-<!--START_SECTION:activity-->
-<!--END_SECTION:activity-->
+<!--RECENT_ACTIVITY:start-->
+<!--RECENT_ACTIVITY:end-->
 
 ---
 
@@ -79,3 +79,4 @@ _Work in Progress – Coming Soon._
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
+
