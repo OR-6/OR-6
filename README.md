@@ -1,8 +1,7 @@
 # Numair (OR-6)
 
 <div align="center">
-  <img src="https://readme-typing-svg.herokuapp.com?font=Roboto+Mono&weight=600&size=28&duration=3500&pause=500&color=18D924&background=6FFF4B00&center=true&vCenter=true&random=true&width=435&lines=Discord+Developer;Software+Engineer;Penetration+Tester;Security+Researcher" alt="Typing SVG" />
-  <br/>
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&weight=500&size=40&letterSpacing=1px&duration=2500&pause=1000&color=286EF7&center=true&vCenter=true&random=true&width=435&lines=Programmer;Cybersecurity+Enthusiast;Discord+Bot+Developer;Game+Developer" alt="Typing SVG" /></a>
   <img src="https://komarev.com/ghpvc/?username=OR-6&style=flat-square&color=2EA043" alt="Profile Views" />
 </div>
 
@@ -15,7 +14,7 @@ Currently working on **OpenVault**, A secure, open-source password manager, 2FA 
 
 **Core Interests**
 - Discord Bot Development  
-- Ethical Hacking & Penetration Testing  
+- Ethical Hacking & Cyber Security Enthusiast
 - Open Source Security Tools  
 - Game Development (Roblox & beyond)  
 
@@ -80,5 +79,6 @@ _Work in Progress – Coming Soon._
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
+
 
 
