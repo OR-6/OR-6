@@ -1,7 +1,7 @@
 # Numair (OR-6)
 
 <div align="center">
-  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&weight=500&size=40&letterSpacing=1px&duration=2500&pause=1000&color=286EF7&center=true&vCenter=true&random=true&width=600&height=70&lines=Programmer;Cybersecurity+Enthusiast;Discord+Bot+Developer;Game+Developer" alt="Typing SVG" /></a>
+  <a href="https://git.io/typing-svg"><img src="https://readme-typing-svg.herokuapp.com?font=Montserrat&weight=500&size=40&letterSpacing=1px&duration=2500&pause=1000&color=286EF7&center=true&vCenter=true&random=true&width=600&height=70&lines=Programmer;Cybersecurity+Enthusiast;Discord+Bot+Developer;Game+Developer;Student" alt="Typing SVG" /></a>
   <br/>
   <img src="https://komarev.com/ghpvc/?username=OR-6&style=flat-square&color=2EA043" alt="Profile Views" />
 </div>
@@ -80,6 +80,7 @@ _Work in Progress – Coming Soon._
 <div align="center">
   <sub>⭐ If you find my work interesting, consider starring a repository.</sub>
 </div>
+
 
 
 
