@@ -58,7 +58,7 @@ _Work in Progress – Coming Soon._
 ## Recent GitHub Activity
 
 <!--RECENT_ACTIVITY:start-->
-1. 📔 Created new repository [OR-6/ProcrastiLang---Esolang](https://github.com/OR-6/ProcrastiLang---Esolang)
+1. ⭐ Starred [digitallyinduced/ihp](https://github.com/digitallyinduced/ihp)
 <!--RECENT_ACTIVITY:end-->
 
 ---
