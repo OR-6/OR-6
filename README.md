@@ -58,7 +58,7 @@ _Work in Progress – Coming Soon._
 ## Recent GitHub Activity
 
 <!--RECENT_ACTIVITY:start-->
-1. ⭐ Starred [Avaluate/MainDab](https://github.com/Avaluate/MainDab)
+1. 📔 Created new repository [OR-6/ProcrastiLang---Esolang](https://github.com/OR-6/ProcrastiLang---Esolang)
 <!--RECENT_ACTIVITY:end-->
 
 ---
