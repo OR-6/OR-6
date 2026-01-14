@@ -87,7 +87,7 @@ def main():
     \x1b[30;101mOR-6@GitHub\x1b[0m
     --------------
     \x1b[96mOS:     \x1b[93mWindows 11, Android 14\x1b[0m
-    \x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m#DPS\x1b[0m
+    \x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m #DPS\x1b[0m
     \x1b[96mKernel: \x1b[93mComputer Science\x1b[0m
     \x1b[96mUptime: \x1b[93m{user_age.years} years, {user_age.months} months, {user_age.days} days\x1b[0m
     \x1b[96mIDE:    \x1b[93mVSCode\x1b[0m
@@ -151,7 +151,7 @@ def main():
     t.gen_text(user_details_lines, 2, 35, count=5, contin=True)
     t.gen_prompt(t.curr_row)
     t.gen_typing_text(
-        "\x1b[92m# Have a nice day kind stranger :D Thanks for stopping by!",
+        "\x1b[92m# Have a nice day stranger :D Thanks for stopping by!",
         t.curr_row,
         contin=True,
     )

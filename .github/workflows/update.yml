@@ -31,7 +31,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GB_TOKEN }}
           IMGBB_API_KEY: ${{ secrets.IMGBB_API_KEY }}
-          GIFOS_GENERAL_FPS: 13
+          GIFOS_GENERAL_FPS: 15
           GIFOS_GENERAL_LOOP_COUNT: 4
           GIFOS_GENERAL_COLOR_SCHEME: "catppuccin-mocha"
 
