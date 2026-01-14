@@ -179,58 +179,63 @@ def main():
     
     t.delete_row(1, prompt_col)
     t.gen_text("\x1b[92mcorefetch\x1b[0m", 1, count=3, contin=True)
-    t.gen_text(" --user OR-6 --style matrix", 1, count=5, contin=True)
+    t.gen_text(" --user OR-6 --format dev", 1, count=5, contin=True)
 
-    # Mona ASCII Art - start from row 3
+    # Mona ASCII Art - FIX: position at row 4 with left padding
     t.set_font(FONT_FILE_MONA, 16, 0)
     t.toggle_show_cursor(False)
-    monaLines = r"""\x1b[49m     \x1b[90;100m}}\x1b[49m     \x1b[90;100m}}\x1b[0m
-\x1b[49m    \x1b[90;100m}}}}\x1b[49m   \x1b[90;100m}}}}\x1b[0m
-\x1b[49m    \x1b[90;100m}}}}}\x1b[49m \x1b[90;100m}}}}}\x1b[0m
-\x1b[49m   \x1b[90;100m}}}}}}}}}}}}}\x1b[0m
-\x1b[49m   \x1b[90;100m}}}}}}}}}}}}}}\x1b[0m
-\x1b[49m   \x1b[90;100m}}\x1b[37;47m}}}}}}}\x1b[90;100m}}}}}\x1b[0m
-\x1b[49m  \x1b[90;100m}}\x1b[37;47m}}}}}}}}}}\x1b[90;100m}}}\x1b[0m
-\x1b[49m  \x1b[90;100m}}\x1b[37;47m}\x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}\x1b[37;47m}}\x1b[90;100m}}}}\x1b[0m
-\x1b[49m  \x1b[90;100m}\x1b[37;47m}}\x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}\x1b[37;47m}}}\x1b[90;100m}}}\x1b[0m
-\x1b[90;100m}}}\x1b[37;47m}}}}\x1b[90;100m}}}\x1b[37;47m}}}}}\x1b[90;100m}}}}\x1b[0m
-\x1b[49m  \x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}}\x1b[37;47m}}}}}\x1b[90;100m}}}\x1b[0m
-\x1b[49m \x1b[90;100m}}\x1b[37;47m}}}}}}}}}}}}\x1b[90;100m}}}\x1b[0m
-\x1b[90;100m}\x1b[49m  \x1b[90;100m}}\x1b[37;47m}}}}}}}}\x1b[90;100m}}}\x1b[49m  \x1b[90;100m}\x1b[0m
-\x1b[49m        \x1b[90;100m}}}}}\x1b[0m
-\x1b[49m       \x1b[90;100m}}}}}}}\x1b[0m
-\x1b[49m       \x1b[90;100m}}}}}}}}\x1b[0m
-\x1b[49m      \x1b[90;100m}}}}}}}}}}\x1b[0m
-\x1b[49m     \x1b[90;100m}}}}}}}}}}}\x1b[0m
-\x1b[49m     \x1b[90;100m}}}}}}}}}}}}\x1b[0m
-\x1b[49m     \x1b[90;100m}}\x1b[49m \x1b[90;100m}}}}}}\x1b[49m \x1b[90;100m}}\x1b[0m
-\x1b[49m        \x1b[90;100m}}}}}}}\x1b[0m
-\x1b[49m         \x1b[90;100m}}}\x1b[49m \x1b[90;100m}}\x1b[0m"""
-    t.gen_text(monaLines, 3, count=5)
+    monaLines = r"""     }}     }}
+    }}}}   }}}}
+    }}}}} }}}}}
+   }}}}}}}}}}}}}
+   }}}}}}}}}}}}}}
+   }}}}}}}}}}}}}}
+  }}}}}}}}}}}}}}
+  }}}}}}}}}}}}}}
+  }}}}}}}}}}}}}}
+}}}}}}}}}}}}}}}}}
+  }}}}}}}}}}}}}}
+ }}}}}}}}}}}}}}}}
+}  }}}}}}}}}}  }
+        }}}}}
+       }}}}}}}
+       }}}}}}}}
+      }}}}}}}}}}
+     }}}}}}}}}}}
+     }}}}}}}}}}}}
+     }} }}}}}} }}
+        }}}}}}}
+         }}} }}"""
+    
+    # Display Mona at column 3 (left padding)
+    t.gen_text(monaLines, 4, 3, count=5)
 
-    # Display User Details - with proper positioning
+    # Display User Details - with proper positioning (column 40 for better spacing)
     t.set_font(FONT_FILE_BITMAP)
     t.toggle_show_cursor(False)
-    t.gen_text(user_details_lines, 3, 35, count=10)
+    t.gen_text(user_details_lines, 4, 40, count=10)
     
     # Hold the full display for much longer so people can read
     t.clone_frame(80)
     
-    # Add final message at the bottom
-    t.toggle_show_cursor(True)
-    gen_custom_prompt(t, t.num_rows - 3)
-    t.gen_text(
-        "\x1b[92m# Thanks for visiting! Stay curious, keep coding.\x1b[0m",
-        t.num_rows - 2,
-        count=10
-    )
+    # Add nano-style quit prompt at the bottom
+    t.gen_text("", t.num_rows - 1)
+    t.gen_text("\x1b[90mPress \x1b[97mQ\x1b[90m to quit\x1b[0m", t.num_rows - 1, count=30)
     
-    # Matrix-style loading bar animation
-    loading_bar = "\x1b[96m[" + "=" * 30 + "] \x1b[92m100%\x1b[0m"
-    t.gen_text(loading_bar, t.num_rows - 1, count=8)
+    # Simulate pressing Q
+    t.gen_text("\x1b[90mPress \x1b[97mQ\x1b[90m to quit\x1b[0m", t.num_rows - 1, count=5)
     
-    # Hold final screen longer
-    t.clone_frame(60)
+    # Clear and show goodbye message
+    t.clear_frame()
+    t.gen_text("", 1, count=5)
+    
+    goodbye_row = (t.num_rows + 1) // 2
+    t.gen_text("\x1b[96m>> Logging out...\x1b[0m", goodbye_row, count=10)
+    t.gen_text("\x1b[92m>> Thanks for visiting! Keep coding and stay curious.\x1b[0m", goodbye_row + 2, count=20)
+    t.gen_text("\x1b[93m>> See you soon, developer!\x1b[0m", goodbye_row + 4, count=30)
+    
+    # Fade out
+    t.gen_text("", 1, count=20)
 
     # Generate Output
     t.gen_gif()
