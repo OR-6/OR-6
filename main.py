@@ -8,9 +8,9 @@ FONT_FILE_TRUETYPE = "./fonts/FiraCodeNerdFontMono-Bold.ttf"
 FONT_FILE_MONA = "./fonts/Inversionz.otf"
 
 
-def gen_custom_prompt(t, row, user="or6", host="nexus", symbol="~>"):
-    """Custom cyberpunk-style prompt"""
-    prompt = f"\x1b[95m┌─[\x1b[96m{user}\x1b[95m@\x1b[93m{host}\x1b[95m]\x1b[0m\n\x1b[95m└─{symbol}\x1b[0m "
+def gen_custom_prompt(t, row, user="or6", host="core", symbol=">>"):
+    """Custom prompt without Unicode characters"""
+    prompt = f"\x1b[96m{user}\x1b[95m@\x1b[93m{host} \x1b[92m{symbol}\x1b[0m "
     t.gen_text(prompt, row)
 
 
@@ -22,7 +22,7 @@ def main():
     year_now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%Y")
     
     # BIOS Screen - More realistic
-    t.gen_text("NexusCore UEFI BIOS v2.5.1247", 1)
+    t.gen_text("CoreOS UEFI BIOS v2.5.1247", 1)
     t.gen_text(f"Copyright (C) 2015-{year_now}, \x1b[31mOR-6 Technologies\x1b[0m", 2)
     t.gen_text("\x1b[94mGitHub Profile System BIOS - Build 2025.01.14\x1b[0m", 4)
     t.gen_text("Quantum-Core Processor @ 3.6GHz | 8 Cores", 6)
@@ -73,7 +73,7 @@ def main():
     # OS Logo Animation - Changed from WALL-E
     t.gen_text("\x1b[96m", 1, count=0, contin=True)
     t.set_font(FONT_FILE_LOGO, 66)
-    os_logo_text = "NEXUS OS"
+    os_logo_text = "CORE OS"
     mid_row = (t.num_rows + 1) // 2
     mid_col = (t.num_cols - len(os_logo_text) + 1) // 2
     effect_lines = gifos.effects.text_scramble_effect_lines(
@@ -88,7 +88,7 @@ def main():
     t.clear_frame()
     t.clone_frame(5)
     t.toggle_show_cursor(False)
-    t.gen_text("\x1b[95mNexus OS v2.1.0 LTS (tty1)\x1b[0m", 1, count=5)
+    t.gen_text("\x1b[95mCore OS v2.1.0 LTS (tty1)\x1b[0m", 1, count=5)
     t.gen_text("", 2, count=3)
     t.gen_text("login: ", 3, count=5)
     t.toggle_show_cursor(True)
@@ -111,9 +111,9 @@ def main():
     prompt_col = t.curr_col
     t.clone_frame(5)
     t.toggle_show_cursor(True)
-    t.gen_typing_text("\x1b[91mclea", 10, contin=True)
-    t.delete_row(10, prompt_col)
-    t.gen_text("\x1b[92mclear\x1b[0m", 10, count=3, contin=True)
+    t.gen_typing_text("\x1b[91mclea", 9, contin=True)
+    t.delete_row(9, prompt_col)
+    t.gen_text("\x1b[92mclear\x1b[0m", 9, count=3, contin=True)
 
     # Fetch GitHub Stats
     ignore_repos = ["archiso-zfs", "archiso-zfs-archive"]
@@ -153,10 +153,10 @@ def main():
     prompt_col = t.curr_col
     t.clone_frame(10)
     t.toggle_show_cursor(True)
-    t.gen_typing_text("\x1b[91mnxfetc", 2, contin=True)
+    t.gen_typing_text("\x1b[91mcorefetc", 2, contin=True)
     t.delete_row(2, prompt_col)
-    t.gen_text("\x1b[92mnxfetch\x1b[0m", 2, contin=True)
-    t.gen_typing_text(" --user OR-6 --theme cyber", 2, contin=True)
+    t.gen_text("\x1b[92mcorefetch\x1b[0m", 2, contin=True)
+    t.gen_typing_text(" --user OR-6 --style matrix", 2, contin=True)
 
     # Mona ASCII Art
     t.set_font(FONT_FILE_MONA, 16, 0)
@@ -219,30 +219,17 @@ def main():
     
     readme_file_content = rf"""<div align="center">
 
-# 🚀 Welcome to the Nexus
+# 🚀 Welcome to Core OS
 
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./output.gif">
     <source media="(prefers-color-scheme: light)" srcset="./output.gif">
-    <img alt="Nexus OS Terminal" src="output.gif">
+    <img alt="Core OS Terminal" src="output.gif">
 </picture>
 
 ---
 
-### 💻 Current Focus
-Building cool stuff • Learning everyday • Breaking things to understand them better
-
-### 🔧 Tech Arsenal
-Python • JavaScript • React • Node.js • Git • Linux
-
-### 📊 Quick Stats
-![Profile Views](https://komarev.com/ghpvc/?username=OR-6&color=blueviolet&style=flat-square)
-![GitHub followers](https://img.shields.io/github/followers/OR-6?style=social)
-![GitHub stars](https://img.shields.io/github/stars/OR-6?style=social)
-
----
-
-<sub>Built with NexusCore Technology • OR-6 © {year_now}</sub>
+<sub>Built with CoreOS Technology • OR-6 © {year_now}</sub>
 
 </div>"""
     
