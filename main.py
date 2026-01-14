@@ -193,22 +193,22 @@ def main():
     t.toggle_show_cursor(True)
     t.gen_text(user_details_lines, 2, 35, count=5, contin=True)
     
-    # FIX: Create the row first before using gen_typing_text with contin=True
+    # FIX: Get current row and add prompt
     current_row = t.curr_row
     gen_custom_prompt(t, current_row)
     
-    # Now use gen_typing_text on the next row (initialize it first)
-    t.gen_text("", current_row + 1)  # Initialize the row
-    t.gen_typing_text(
-        "\x1b[92m# Thanks for visiting! Stay curious, keep coding.",
+    # FIX: Use gen_text instead of gen_typing_text to avoid row issues
+    t.gen_text(
+        "\x1b[92m# Thanks for visiting! Stay curious, keep coding.\x1b[0m",
         current_row + 1,
-        contin=True,
+        count=5
     )
     
     # Matrix-style loading bar animation
-    t.gen_text("", t.curr_row + 2, count=3)
+    current_row = t.curr_row
+    t.gen_text("", current_row + 1, count=3)
     loading_bar = "\x1b[96m[" + "=" * 30 + "] \x1b[92m100%\x1b[0m"
-    t.gen_text(loading_bar, t.curr_row + 2, count=5)
+    t.gen_text(loading_bar, current_row + 2, count=5)
     
     # Easter egg (flashes for 1 frame)
     t.gen_text(
