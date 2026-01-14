@@ -9,8 +9,9 @@ FONT_FILE_MONA = "./fonts/Inversionz.otf"
 
 
 def gen_custom_prompt(t, row, user="or6", host="core", symbol=">>"):
-    """Custom prompt without Unicode characters"""
-    prompt = f"\x1b[96m{user}\x1b[95m@\x1b[93m{host} \x1b[92m{symbol}\x1b[0m "
+    """Custom prompt with fancy ASCII-safe design"""
+    # Fancy box drawing characters that are Latin-1 safe
+    prompt = f"\x1b[96m[\x1b[95m{user}\x1b[96m@\x1b[93m{host}\x1b[96m]\x1b[0m \x1b[92m{symbol}\x1b[0m "
     t.gen_text(prompt, row)
 
 
@@ -70,7 +71,7 @@ def main():
     
     t.gen_text("", row, count=5)
     
-    # OS Logo Animation - Changed from WALL-E
+    # OS Logo Animation
     t.gen_text("\x1b[96m", 1, count=0, contin=True)
     t.set_font(FONT_FILE_LOGO, 66)
     os_logo_text = "CORE OS"
@@ -122,7 +123,7 @@ def main():
     t.clear_frame()
     top_languages = [lang[0] for lang in git_user_details.languages_sorted]
     
-    # Fixed: ASCII-only separators to avoid encoding issues
+    # ASCII-only separators to avoid encoding issues
     user_details_lines = f"""
     \x1b[30;101m OR-6@GitHub \x1b[0m
     ================
@@ -192,10 +193,15 @@ def main():
     t.toggle_show_cursor(True)
     t.gen_text(user_details_lines, 2, 35, count=5, contin=True)
     
-    gen_custom_prompt(t, t.curr_row)
+    # FIX: Create the row first before using gen_typing_text with contin=True
+    current_row = t.curr_row
+    gen_custom_prompt(t, current_row)
+    
+    # Now use gen_typing_text on the next row (initialize it first)
+    t.gen_text("", current_row + 1)  # Initialize the row
     t.gen_typing_text(
         "\x1b[92m# Thanks for visiting! Stay curious, keep coding.",
-        t.curr_row + 1,
+        current_row + 1,
         contin=True,
     )
     
