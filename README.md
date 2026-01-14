@@ -1,14 +1,15 @@
-<div align="justify">
+<div align="center">
+
+# 🚀 Welcome to Core OS
+
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./output.gif">
     <source media="(prefers-color-scheme: light)" srcset="./output.gif">
-    <img alt="GIFOS" src="output.gif">
+    <img alt="Core OS Terminal" src="output.gif">
 </picture>
 
-<!-- <details>
-<summary>More details</summary>
+---
 
-</details> -->
+<sub>Built with CoreOS Technology • OR-6 © 2026</sub>
+
 </div>
-
-<!-- Image deletion URL: NONE -->
