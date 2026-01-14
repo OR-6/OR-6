@@ -8,9 +8,9 @@ FONT_FILE_TRUETYPE = "./fonts/FiraCodeNerdFontMono-Bold.ttf"
 FONT_FILE_MONA = "./fonts/Inversionz.otf"
 
 
-def gen_custom_prompt(t, row, user="or6", host="wall-e", symbol="$"):
-    """Custom prompt to replace @gifos branding"""
-    prompt = f"\x1b[90m[\x1b[92m{user}\x1b[90m@\x1b[94m{host}\x1b[90m]\x1b[93m{symbol}\x1b[0m "
+def gen_custom_prompt(t, row, user="or6", host="nexus", symbol="~>"):
+    """Custom cyberpunk-style prompt"""
+    prompt = f"\x1b[95m┌─[\x1b[96m{user}\x1b[95m@\x1b[93m{host}\x1b[95m]\x1b[0m\n\x1b[95m└─{symbol}\x1b[0m "
     t.gen_text(prompt, row)
 
 
@@ -21,52 +21,59 @@ def main():
     t.toggle_show_cursor(False)
     year_now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%Y")
     
-    # BIOS Screen
-    t.gen_text("WALL-E OS Modular BIOS v1.0.11", 1)
-    t.gen_text(f"Copyright (C) {year_now}, \x1b[31mOR-6 Softwares Inc.\x1b[0m", 2)
-    t.gen_text("\x1b[94mGitHub Profile ReadMe Terminal, Rev 1011\x1b[0m", 4)
-    t.gen_text("Krypton(tm) GIFCPU - 250Hz", 6)
+    # BIOS Screen - More realistic
+    t.gen_text("NexusCore UEFI BIOS v2.5.1247", 1)
+    t.gen_text(f"Copyright (C) 2015-{year_now}, \x1b[31mOR-6 Technologies\x1b[0m", 2)
+    t.gen_text("\x1b[94mGitHub Profile System BIOS - Build 2025.01.14\x1b[0m", 4)
+    t.gen_text("Quantum-Core Processor @ 3.6GHz | 8 Cores", 6)
     t.gen_text(
-        "Press \x1b[94mDEL\x1b[0m to enter SETUP, \x1b[94mESC\x1b[0m to cancel Memory Test",
+        "Press \x1b[94mF2\x1b[0m for Setup, \x1b[94mF12\x1b[0m for Boot Menu, \x1b[94mDEL\x1b[0m for Advanced",
         t.num_rows,
     )
     
-    # Memory Test
+    # Memory Test with more realistic progression
     for i in range(0, 65653, 7168):
         t.delete_row(7)
         if i < 30000:
-            t.gen_text(f"Memory Test: {i}", 7, count=2, contin=True)
+            t.gen_text(f"Testing RAM: {i}KB", 7, count=2, contin=True)
         else:
-            t.gen_text(f"Memory Test: {i}", 7, contin=True)
+            t.gen_text(f"Testing RAM: {i}KB", 7, contin=True)
     t.delete_row(7)
-    t.gen_text("Memory Test: 64KB OK", 7, count=10, contin=True)
+    t.gen_text("Memory Test: 64KB \x1b[92mPASSED\x1b[0m", 7, count=10, contin=True)
     t.gen_text("", 11, count=10, contin=True)
 
-    # Boot Sequence
+    # Enhanced Boot Sequence - Linux-style with more steps
     t.clear_frame()
-    t.gen_text("Initiating Boot Sequence ", 1, contin=True)
-    t.gen_typing_text(".....", 1, contin=True)
+    t.gen_text("\x1b[96m[    0.000000]\x1b[0m Initializing kernel", 1, count=3)
+    t.gen_text("\x1b[96m[    0.124751]\x1b[0m CPU: Quantum-Core detected", 2, count=2)
+    t.gen_text("\x1b[96m[    0.245891]\x1b[0m Memory: 64KB available", 3, count=2)
     
-    # Hardware Detection
-    boot_checks = [
-        "Detecting CPU .......... \x1b[92mOK\x1b[0m",
-        "Initializing IRQs ...... \x1b[92mOK\x1b[0m",
-        "Mounting /proc ......... \x1b[92mOK\x1b[0m",
-        "Loading kernel modules . \x1b[92mOK\x1b[0m",
-        "Starting systemd ....... \x1b[92mOK\x1b[0m",
+    boot_sequence = [
+        "[    0.458234] PCI: Probing PCI hardware",
+        "[    0.672145] ACPI: Interpreter enabled",
+        "[    0.891562] ACPI: Power Button detected",
+        "[    1.134782] USB: Host controller initialized",
+        "[    1.367294] SCSI: Scanning for devices",
+        "[    1.589431] EXT4-fs: Mounted root filesystem",
+        "[    1.823674] systemd[1]: Starting system services",
+        "[    2.045821] systemd[1]: Reached target Network",
+        "[    2.267493] systemd[1]: Reached target Multi-User",
+        "[    2.534628] systemd[1]: Startup finished",
     ]
     
-    row = 3
-    for line in boot_checks:
-        t.gen_text(line, row, count=2)
+    row = 4
+    for line in boot_sequence:
+        t.gen_text(f"\x1b[96m{line}\x1b[0m", row, count=1)
         row += 1
+        if row >= t.num_rows - 1:
+            break
     
     t.gen_text("", row, count=5)
     
-    # OS Logo Animation
+    # OS Logo Animation - Changed from WALL-E
     t.gen_text("\x1b[96m", 1, count=0, contin=True)
     t.set_font(FONT_FILE_LOGO, 66)
-    os_logo_text = "WALL-E OS"
+    os_logo_text = "NEXUS OS"
     mid_row = (t.num_rows + 1) // 2
     mid_col = (t.num_cols - len(os_logo_text) + 1) // 2
     effect_lines = gifos.effects.text_scramble_effect_lines(
@@ -81,7 +88,8 @@ def main():
     t.clear_frame()
     t.clone_frame(5)
     t.toggle_show_cursor(False)
-    t.gen_text("\x1b[93mWALL-E OS v1.0.1 (tty1)\x1b[0m", 1, count=5)
+    t.gen_text("\x1b[95mNexus OS v2.1.0 LTS (tty1)\x1b[0m", 1, count=5)
+    t.gen_text("", 2, count=3)
     t.gen_text("login: ", 3, count=5)
     t.toggle_show_cursor(True)
     t.gen_typing_text("OR-6", 3, contin=True)
@@ -94,16 +102,18 @@ def main():
     time_now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime(
         "%a %b %d %I:%M:%S %p %Z %Y"
     )
-    t.gen_text(f"Last login: {time_now} on tty1", 6)
+    t.gen_text(f"\x1b[92mAuthentication successful\x1b[0m", 6, count=5)
+    t.gen_text(f"Last login: {time_now} on tty1", 7, count=5)
+    t.gen_text("", 8, count=3)
 
     # Shell prompt with custom branding
-    gen_custom_prompt(t, 7)
+    gen_custom_prompt(t, 9)
     prompt_col = t.curr_col
     t.clone_frame(5)
     t.toggle_show_cursor(True)
-    t.gen_typing_text("\x1b[91mclea", 7, contin=True)
-    t.delete_row(7, prompt_col)
-    t.gen_text("\x1b[92mclear\x1b[0m", 7, count=3, contin=True)
+    t.gen_typing_text("\x1b[91mclea", 10, contin=True)
+    t.delete_row(10, prompt_col)
+    t.gen_text("\x1b[92mclear\x1b[0m", 10, count=3, contin=True)
 
     # Fetch GitHub Stats
     ignore_repos = ["archiso-zfs", "archiso-zfs-archive"]
@@ -112,40 +122,41 @@ def main():
     t.clear_frame()
     top_languages = [lang[0] for lang in git_user_details.languages_sorted]
     
+    # Fixed: ASCII-only separators to avoid encoding issues
     user_details_lines = f"""
     \x1b[30;101m OR-6@GitHub \x1b[0m
-    ────────────────
+    ================
     \x1b[96mOS:     \x1b[93mWindows 11, Android 14\x1b[0m
     \x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m #DPS\x1b[0m
     \x1b[96mKernel: \x1b[93mComputer Science\x1b[0m
-    \x1b[96mUptime: \x1b[93m{user_age.years} years, {user_age.months} months, {user_age.days} days\x1b[0m
-    \x1b[96mIDE:    \x1b[93mVSCode\x1b[0m
+    \x1b[96mUptime: \x1b[93m{user_age.years}y {user_age.months}m {user_age.days}d\x1b[0m
+    \x1b[96mIDE:    \x1b[93mVSCode + Neovim\x1b[0m
     
-    \x1b[30;101m Contact \x1b[0m
-    ────────────────
-    \x1b[96mDiscord:    \x1b[93m_or1_\x1b[0m
-    \x1b[96mInstagram:  \x1b[93mkaunnumi\x1b[0m
-    \x1b[96mEmail:      \x1b[93mornor6@gmail.com\x1b[0m
+    \x1b[30;102m Contact \x1b[0m
+    ================
+    \x1b[96mDiscord:   \x1b[93m_or1_\x1b[0m
+    \x1b[96mInstagram: \x1b[93mkaunnumi\x1b[0m
+    \x1b[96mEmail:     \x1b[93mornor6@gmail.com\x1b[0m
     
-    \x1b[30;101m GitHub Stats \x1b[0m
-    ────────────────
-    \x1b[96mUser Rating:         \x1b[93m{git_user_details.user_rank.level}\x1b[0m
-    \x1b[96mTotal Stars Earned:  \x1b[93m{git_user_details.total_stargazers}\x1b[0m
-    \x1b[96mTotal Commits ({int(year_now) - 1}):  \x1b[93m{git_user_details.total_commits_last_year}\x1b[0m
-    \x1b[96mTotal PRs:           \x1b[93m{git_user_details.total_pull_requests_made}\x1b[0m
-    \x1b[96mMerged PR %:         \x1b[93m{git_user_details.pull_requests_merge_percentage}\x1b[0m
-    \x1b[96mTotal Contributions: \x1b[93m{git_user_details.total_repo_contributions}\x1b[0m
-    \x1b[96mTop Languages:       \x1b[93m{', '.join(top_languages[:5])}\x1b[0m
+    \x1b[30;104m GitHub Stats \x1b[0m
+    ================
+    \x1b[96mRating:        \x1b[93m{git_user_details.user_rank.level}\x1b[0m
+    \x1b[96mStars Earned:  \x1b[93m{git_user_details.total_stargazers}\x1b[0m
+    \x1b[96mCommits ({int(year_now) - 1}):  \x1b[93m{git_user_details.total_commits_last_year}\x1b[0m
+    \x1b[96mTotal PRs:     \x1b[93m{git_user_details.total_pull_requests_made}\x1b[0m
+    \x1b[96mMerged PR:     \x1b[93m{git_user_details.pull_requests_merge_percentage}%\x1b[0m
+    \x1b[96mContributions: \x1b[93m{git_user_details.total_repo_contributions}\x1b[0m
+    \x1b[96mTop Languages: \x1b[93m{', '.join(top_languages[:5])}\x1b[0m
     """
     
     gen_custom_prompt(t, 1)
     prompt_col = t.curr_col
     t.clone_frame(10)
     t.toggle_show_cursor(True)
-    t.gen_typing_text("\x1b[91mwallfet", 1, contin=True)
-    t.delete_row(1, prompt_col)
-    t.gen_text("\x1b[92mwallfetch\x1b[0m", 1, contin=True)
-    t.gen_typing_text(" --user OR-6", 1, contin=True)
+    t.gen_typing_text("\x1b[91mnxfetc", 2, contin=True)
+    t.delete_row(2, prompt_col)
+    t.gen_text("\x1b[92mnxfetch\x1b[0m", 2, contin=True)
+    t.gen_typing_text(" --user OR-6 --theme cyber", 2, contin=True)
 
     # Mona ASCII Art
     t.set_font(FONT_FILE_MONA, 16, 0)
@@ -183,14 +194,19 @@ def main():
     
     gen_custom_prompt(t, t.curr_row)
     t.gen_typing_text(
-        "\x1b[92m# Have a nice day stranger :D Thanks for stopping by!",
-        t.curr_row,
+        "\x1b[92m# Thanks for visiting! Stay curious, keep coding.",
+        t.curr_row + 1,
         contin=True,
     )
     
-    # Easter egg (flashes for 1 frame only)
+    # Matrix-style loading bar animation
+    t.gen_text("", t.curr_row + 2, count=3)
+    loading_bar = "\x1b[96m[" + "=" * 30 + "] \x1b[92m100%\x1b[0m"
+    t.gen_text(loading_bar, t.curr_row + 2, count=5)
+    
+    # Easter egg (flashes for 1 frame)
     t.gen_text(
-        "\x1b[90m// built with insomnia, curiosity, and too much caffeine\x1b[0m",
+        "\x1b[90m// powered by late-night code sessions and infinite coffee\x1b[0m",
         t.num_rows - 1,
         count=1
     )
@@ -201,14 +217,33 @@ def main():
     # Generate Output
     t.gen_gif()
     
-    readme_file_content = rf"""<div align="justify">
+    readme_file_content = rf"""<div align="center">
+
+# 🚀 Welcome to the Nexus
+
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./output.gif">
     <source media="(prefers-color-scheme: light)" srcset="./output.gif">
-    <img alt="WALL-E OS Terminal" src="output.gif">
+    <img alt="Nexus OS Terminal" src="output.gif">
 </picture>
 
-<!-- Built with WALL-E OS · OR-6 Softwares Inc. -->
+---
+
+### 💻 Current Focus
+Building cool stuff • Learning everyday • Breaking things to understand them better
+
+### 🔧 Tech Arsenal
+Python • JavaScript • React • Node.js • Git • Linux
+
+### 📊 Quick Stats
+![Profile Views](https://komarev.com/ghpvc/?username=OR-6&color=blueviolet&style=flat-square)
+![GitHub followers](https://img.shields.io/github/followers/OR-6?style=social)
+![GitHub stars](https://img.shields.io/github/stars/OR-6?style=social)
+
+---
+
+<sub>Built with NexusCore Technology • OR-6 © {year_now}</sub>
+
 </div>"""
     
     with open("README.md", "w") as f:
