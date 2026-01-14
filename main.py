@@ -130,7 +130,7 @@ def main():
     t.gen_text("\x1b[92mclear\x1b[0m", 9, count=5, contin=True)
 
     # Fetch GitHub Stats
-    ignore_repos = ["archiso-zfs", "archiso-zfs-archive"]
+    ignore_repos = []
     git_user_details = gifos.utils.fetch_github_stats("OR-6", ignore_repos)
     user_age = gifos.utils.calc_age(18, 8, 2008)
     t.clear_frame()
@@ -143,7 +143,7 @@ def main():
 \x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m #DPS\x1b[0m
 \x1b[96mKernel: \x1b[93mComputer Science\x1b[0m
 \x1b[96mUptime: \x1b[93m{user_age.years}y {user_age.months}m {user_age.days}d\x1b[0m
-\x1b[96mIDE:    \x1b[93mVSCode + Neovim\x1b[0m
+\x1b[96mIDE:    \x1b[93mVSCode\x1b[0m
 
 \x1b[30;102m Contact \x1b[0m
 ================
