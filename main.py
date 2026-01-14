@@ -69,20 +69,27 @@ def main():
         if row >= t.num_rows - 1:
             break
     
-    t.gen_text("", row, count=5)
+    t.gen_text("", row, count=8)
     
-    # OS Logo Animation
-    t.gen_text("\x1b[96m", 1, count=0, contin=True)
+    # OS Logo Animation - CLEAR SCREEN FIRST to avoid artifacts
+    t.clear_frame()
     t.set_font(FONT_FILE_LOGO, 66)
     os_logo_text = "CORE OS"
     mid_row = (t.num_rows + 1) // 2
     mid_col = (t.num_cols - len(os_logo_text) + 1) // 2
+    
+    # Add blank frames before logo animation
+    t.clone_frame(3)
+    
     effect_lines = gifos.effects.text_scramble_effect_lines(
         os_logo_text, 3, include_special=False
     )
     for i in range(len(effect_lines)):
         t.delete_row(mid_row + 1)
         t.gen_text(effect_lines[i], mid_row + 1, mid_col + 1)
+    
+    # Hold the logo longer
+    t.clone_frame(10)
 
     # Login Screen
     t.set_font(FONT_FILE_BITMAP, 15)
@@ -105,16 +112,22 @@ def main():
     )
     t.gen_text(f"\x1b[92mAuthentication successful\x1b[0m", 6, count=5)
     t.gen_text(f"Last login: {time_now} on tty1", 7, count=5)
-    t.gen_text("", 8, count=3)
+    t.gen_text("", 8, count=5)
 
-    # Shell prompt with custom branding
+    # Shell prompt with custom branding - FIX: slower typing
     gen_custom_prompt(t, 9)
     prompt_col = t.curr_col
-    t.clone_frame(5)
+    t.clone_frame(8)
     t.toggle_show_cursor(True)
-    t.gen_typing_text("\x1b[91mclea", 9, contin=True)
+    
+    # Type "clear" slower with visible characters
+    t.gen_text("\x1b[91mc", 9, count=2, contin=True)
+    t.gen_text("\x1b[91ml", 9, count=2, contin=True)
+    t.gen_text("\x1b[91me", 9, count=2, contin=True)
+    t.gen_text("\x1b[91ma", 9, count=2, contin=True)
+    t.gen_text("\x1b[91mr", 9, count=2, contin=True)
     t.delete_row(9, prompt_col)
-    t.gen_text("\x1b[92mclear\x1b[0m", 9, count=3, contin=True)
+    t.gen_text("\x1b[92mclear\x1b[0m", 9, count=5, contin=True)
 
     # Fetch GitHub Stats
     ignore_repos = ["archiso-zfs", "archiso-zfs-archive"]
@@ -124,108 +137,105 @@ def main():
     top_languages = [lang[0] for lang in git_user_details.languages_sorted]
     
     # ASCII-only separators to avoid encoding issues
-    user_details_lines = f"""
-    \x1b[30;101m OR-6@GitHub \x1b[0m
-    ================
-    \x1b[96mOS:     \x1b[93mWindows 11, Android 14\x1b[0m
-    \x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m #DPS\x1b[0m
-    \x1b[96mKernel: \x1b[93mComputer Science\x1b[0m
-    \x1b[96mUptime: \x1b[93m{user_age.years}y {user_age.months}m {user_age.days}d\x1b[0m
-    \x1b[96mIDE:    \x1b[93mVSCode + Neovim\x1b[0m
-    
-    \x1b[30;102m Contact \x1b[0m
-    ================
-    \x1b[96mDiscord:   \x1b[93m_or1_\x1b[0m
-    \x1b[96mInstagram: \x1b[93mkaunnumi\x1b[0m
-    \x1b[96mEmail:     \x1b[93mornor6@gmail.com\x1b[0m
-    
-    \x1b[30;104m GitHub Stats \x1b[0m
-    ================
-    \x1b[96mRating:        \x1b[93m{git_user_details.user_rank.level}\x1b[0m
-    \x1b[96mStars Earned:  \x1b[93m{git_user_details.total_stargazers}\x1b[0m
-    \x1b[96mCommits ({int(year_now) - 1}):  \x1b[93m{git_user_details.total_commits_last_year}\x1b[0m
-    \x1b[96mTotal PRs:     \x1b[93m{git_user_details.total_pull_requests_made}\x1b[0m
-    \x1b[96mMerged PR:     \x1b[93m{git_user_details.pull_requests_merge_percentage}%\x1b[0m
-    \x1b[96mContributions: \x1b[93m{git_user_details.total_repo_contributions}\x1b[0m
-    \x1b[96mTop Languages: \x1b[93m{', '.join(top_languages[:5])}\x1b[0m
-    """
+    user_details_lines = f"""\x1b[30;101m OR-6@GitHub \x1b[0m
+================
+\x1b[96mOS:     \x1b[93mWindows 11, Android 14\x1b[0m
+\x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m #DPS\x1b[0m
+\x1b[96mKernel: \x1b[93mComputer Science\x1b[0m
+\x1b[96mUptime: \x1b[93m{user_age.years}y {user_age.months}m {user_age.days}d\x1b[0m
+\x1b[96mIDE:    \x1b[93mVSCode + Neovim\x1b[0m
+
+\x1b[30;102m Contact \x1b[0m
+================
+\x1b[96mDiscord:   \x1b[93m_or1_\x1b[0m
+\x1b[96mInstagram: \x1b[93mkaunnumi\x1b[0m
+\x1b[96mEmail:     \x1b[93mornor6@gmail.com\x1b[0m
+
+\x1b[30;104m GitHub Stats \x1b[0m
+================
+\x1b[96mRating:        \x1b[93m{git_user_details.user_rank.level}\x1b[0m
+\x1b[96mStars Earned:  \x1b[93m{git_user_details.total_stargazers}\x1b[0m
+\x1b[96mCommits ({int(year_now) - 1}):  \x1b[93m{git_user_details.total_commits_last_year}\x1b[0m
+\x1b[96mTotal PRs:     \x1b[93m{git_user_details.total_pull_requests_made}\x1b[0m
+\x1b[96mMerged PR:     \x1b[93m{git_user_details.pull_requests_merge_percentage}%\x1b[0m
+\x1b[96mContributions: \x1b[93m{git_user_details.total_repo_contributions}\x1b[0m
+\x1b[96mTop Languages: \x1b[93m{', '.join(top_languages[:5])}\x1b[0m"""
     
     gen_custom_prompt(t, 1)
     prompt_col = t.curr_col
     t.clone_frame(10)
     t.toggle_show_cursor(True)
-    t.gen_typing_text("\x1b[91mcorefetc", 2, contin=True)
-    t.delete_row(2, prompt_col)
-    t.gen_text("\x1b[92mcorefetch\x1b[0m", 2, contin=True)
-    t.gen_typing_text(" --user OR-6 --style matrix", 2, contin=True)
+    
+    # Type "corefetch" slower character by character
+    t.gen_text("\x1b[91mc", 1, count=2, contin=True)
+    t.gen_text("\x1b[91mo", 1, count=2, contin=True)
+    t.gen_text("\x1b[91mr", 1, count=2, contin=True)
+    t.gen_text("\x1b[91me", 1, count=2, contin=True)
+    t.gen_text("\x1b[91mf", 1, count=2, contin=True)
+    t.gen_text("\x1b[91me", 1, count=2, contin=True)
+    t.gen_text("\x1b[91mt", 1, count=2, contin=True)
+    t.gen_text("\x1b[91mc", 1, count=2, contin=True)
+    t.gen_text("\x1b[91mh", 1, count=2, contin=True)
+    
+    t.delete_row(1, prompt_col)
+    t.gen_text("\x1b[92mcorefetch\x1b[0m", 1, count=3, contin=True)
+    t.gen_text(" --user OR-6 --style matrix", 1, count=5, contin=True)
 
-    # Mona ASCII Art
+    # Mona ASCII Art - start from row 3
     t.set_font(FONT_FILE_MONA, 16, 0)
     t.toggle_show_cursor(False)
-    monaLines = r"""
-    \x1b[49m     \x1b[90;100m}}\x1b[49m     \x1b[90;100m}}\x1b[0m
-    \x1b[49m    \x1b[90;100m}}}}\x1b[49m   \x1b[90;100m}}}}\x1b[0m
-    \x1b[49m    \x1b[90;100m}}}}}\x1b[49m \x1b[90;100m}}}}}\x1b[0m
-    \x1b[49m   \x1b[90;100m}}}}}}}}}}}}}\x1b[0m
-    \x1b[49m   \x1b[90;100m}}}}}}}}}}}}}}\x1b[0m
-    \x1b[49m   \x1b[90;100m}}\x1b[37;47m}}}}}}}\x1b[90;100m}}}}}\x1b[0m
-    \x1b[49m  \x1b[90;100m}}\x1b[37;47m}}}}}}}}}}\x1b[90;100m}}}\x1b[0m
-    \x1b[49m  \x1b[90;100m}}\x1b[37;47m}\x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}\x1b[37;47m}}\x1b[90;100m}}}}\x1b[0m
-    \x1b[49m  \x1b[90;100m}\x1b[37;47m}}\x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}\x1b[37;47m}}}\x1b[90;100m}}}\x1b[0m
-    \x1b[90;100m}}}\x1b[37;47m}}}}\x1b[90;100m}}}\x1b[37;47m}}}}}\x1b[90;100m}}}}\x1b[0m
-    \x1b[49m  \x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}}\x1b[37;47m}}}}}\x1b[90;100m}}}\x1b[0m
-    \x1b[49m \x1b[90;100m}}\x1b[37;47m}}}}}}}}}}}}\x1b[90;100m}}}\x1b[0m
-    \x1b[90;100m}\x1b[49m  \x1b[90;100m}}\x1b[37;47m}}}}}}}}\x1b[90;100m}}}\x1b[49m  \x1b[90;100m}\x1b[0m
-    \x1b[49m        \x1b[90;100m}}}}}\x1b[0m
-    \x1b[49m       \x1b[90;100m}}}}}}}\x1b[0m
-    \x1b[49m       \x1b[90;100m}}}}}}}}\x1b[0m
-    \x1b[49m      \x1b[90;100m}}}}}}}}}}\x1b[0m
-    \x1b[49m     \x1b[90;100m}}}}}}}}}}}\x1b[0m
-    \x1b[49m     \x1b[90;100m}}}}}}}}}}}}\x1b[0m
-    \x1b[49m     \x1b[90;100m}}\x1b[49m \x1b[90;100m}}}}}}\x1b[49m \x1b[90;100m}}\x1b[0m
-    \x1b[49m        \x1b[90;100m}}}}}}}\x1b[0m
-    \x1b[49m         \x1b[90;100m}}}\x1b[49m \x1b[90;100m}}\x1b[0m
-    """
-    t.gen_text(monaLines, 10)
+    monaLines = r"""\x1b[49m     \x1b[90;100m}}\x1b[49m     \x1b[90;100m}}\x1b[0m
+\x1b[49m    \x1b[90;100m}}}}\x1b[49m   \x1b[90;100m}}}}\x1b[0m
+\x1b[49m    \x1b[90;100m}}}}}\x1b[49m \x1b[90;100m}}}}}\x1b[0m
+\x1b[49m   \x1b[90;100m}}}}}}}}}}}}}\x1b[0m
+\x1b[49m   \x1b[90;100m}}}}}}}}}}}}}}\x1b[0m
+\x1b[49m   \x1b[90;100m}}\x1b[37;47m}}}}}}}\x1b[90;100m}}}}}\x1b[0m
+\x1b[49m  \x1b[90;100m}}\x1b[37;47m}}}}}}}}}}\x1b[90;100m}}}\x1b[0m
+\x1b[49m  \x1b[90;100m}}\x1b[37;47m}\x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}\x1b[37;47m}}\x1b[90;100m}}}}\x1b[0m
+\x1b[49m  \x1b[90;100m}\x1b[37;47m}}\x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}\x1b[37;47m}}}\x1b[90;100m}}}\x1b[0m
+\x1b[90;100m}}}\x1b[37;47m}}}}\x1b[90;100m}}}\x1b[37;47m}}}}}\x1b[90;100m}}}}\x1b[0m
+\x1b[49m  \x1b[90;100m}\x1b[37;47m}}}}}\x1b[90;100m}}\x1b[37;47m}}}}}\x1b[90;100m}}}\x1b[0m
+\x1b[49m \x1b[90;100m}}\x1b[37;47m}}}}}}}}}}}}\x1b[90;100m}}}\x1b[0m
+\x1b[90;100m}\x1b[49m  \x1b[90;100m}}\x1b[37;47m}}}}}}}}\x1b[90;100m}}}\x1b[49m  \x1b[90;100m}\x1b[0m
+\x1b[49m        \x1b[90;100m}}}}}\x1b[0m
+\x1b[49m       \x1b[90;100m}}}}}}}\x1b[0m
+\x1b[49m       \x1b[90;100m}}}}}}}}\x1b[0m
+\x1b[49m      \x1b[90;100m}}}}}}}}}}\x1b[0m
+\x1b[49m     \x1b[90;100m}}}}}}}}}}}\x1b[0m
+\x1b[49m     \x1b[90;100m}}}}}}}}}}}}\x1b[0m
+\x1b[49m     \x1b[90;100m}}\x1b[49m \x1b[90;100m}}}}}}\x1b[49m \x1b[90;100m}}\x1b[0m
+\x1b[49m        \x1b[90;100m}}}}}}}\x1b[0m
+\x1b[49m         \x1b[90;100m}}}\x1b[49m \x1b[90;100m}}\x1b[0m"""
+    t.gen_text(monaLines, 3, count=5)
 
-    # Display User Details
+    # Display User Details - with proper positioning
     t.set_font(FONT_FILE_BITMAP)
+    t.toggle_show_cursor(False)
+    t.gen_text(user_details_lines, 3, 35, count=10)
+    
+    # Hold the full display for much longer so people can read
+    t.clone_frame(80)
+    
+    # Add final message at the bottom
     t.toggle_show_cursor(True)
-    t.gen_text(user_details_lines, 2, 35, count=5, contin=True)
-    
-    # FIX: Get current row and add prompt
-    current_row = t.curr_row
-    gen_custom_prompt(t, current_row)
-    
-    # FIX: Use gen_text instead of gen_typing_text to avoid row issues
+    gen_custom_prompt(t, t.num_rows - 3)
     t.gen_text(
         "\x1b[92m# Thanks for visiting! Stay curious, keep coding.\x1b[0m",
-        current_row + 1,
-        count=5
+        t.num_rows - 2,
+        count=10
     )
     
     # Matrix-style loading bar animation
-    current_row = t.curr_row
-    t.gen_text("", current_row + 1, count=3)
     loading_bar = "\x1b[96m[" + "=" * 30 + "] \x1b[92m100%\x1b[0m"
-    t.gen_text(loading_bar, current_row + 2, count=5)
+    t.gen_text(loading_bar, t.num_rows - 1, count=8)
     
-    # Easter egg (flashes for 1 frame)
-    t.gen_text(
-        "\x1b[90m// powered by late-night code sessions and infinite coffee\x1b[0m",
-        t.num_rows - 1,
-        count=1
-    )
-    t.delete_row(t.num_rows - 1)
-    
-    t.gen_text("", t.curr_row, count=120, contin=True)
+    # Hold final screen longer
+    t.clone_frame(60)
 
     # Generate Output
     t.gen_gif()
     
     readme_file_content = rf"""<div align="center">
-
-# 🚀 Welcome to Core OS
 
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./output.gif">
