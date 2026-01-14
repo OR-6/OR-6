@@ -1,7 +1,5 @@
 <div align="center">
 
-# 🚀 Welcome to Core OS
-
 <picture>
     <source media="(prefers-color-scheme: dark)" srcset="./output.gif">
     <source media="(prefers-color-scheme: light)" srcset="./output.gif">
