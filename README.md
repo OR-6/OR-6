@@ -5,8 +5,6 @@
     <img alt="GIFOS" src="output.gif">
 </picture>
 
-<sub><i>Generated automatically using [x0rzavi/github-readme-terminal](https://github.com/x0rzavi/github-readme-terminal) on Wed Jan 14 07:49:51 AM IST 2026</i></sub>
-
 <!-- <details>
 <summary>More details</summary>
 
