@@ -195,23 +195,23 @@ def main():
     t.gen_text("\x1b[92mcorefetch\x1b[0m", 1, count=3, contin=True)
     t.gen_text(" --user OR-6 --format dev", 1, count=5, contin=True)
 
-    # GitHub Mona ASCII Art with facial features
-    t.set_font(FONT_FILE_MONA, 18, 0)
+    # GitHub Mona - Clean, simple design
+    t.set_font(FONT_FILE_MONA, 16, 0)
     t.toggle_show_cursor(False)
     
-    # Proper Mona with eyes, nose, and smile
+    # Simplified clean Mona mascot
     mona_lines = [
         "     }}     }}",
         "    }}}}   }}}}",
         "    }}}}} }}}}}",
         "   }}}}}}}}}}}}}",
-        "   }}  }}}}}}  }}",      # Eyes line
-        "   }} }}}}}}}} }}",
+        "   }}}}}}}}}}}}}}",
+        "   }}}}}}}}}}}}}}",
         "  }}}}}}}}}}}}}}",
-        "  }}}}  }}  }}}}",        # Nose area
+        "  }}}}}}}}}}}}}}",
         "  }}}}}}}}}}}}}}",
         "}}}}}}}}}}}}}}}}}",
-        "  }} }}}}}} }}",          # Smile/mouth
+        "  }}}}}}}}}}}}}}",
         " }}}}}}}}}}}}}}}}",
         "}  }}}}}}}}}}  }",
         "        }}}}}",
@@ -229,101 +229,80 @@ def main():
     for i, line in enumerate(mona_lines):
         t.gen_text("\x1b[96m" + line + "\x1b[0m", 3 + i, 2, count=1)
 
-    # Display User Details initially without animated field
+    # Display User Details 
     t.set_font(FONT_FILE_BITMAP)
     t.toggle_show_cursor(False)
     
-    # Split the lines and display them one by one to get exact row positions
-    details_lines = user_details_lines.split('\n')
+    # Display text starting at row 4, column 40
     start_row = 4
-    start_col = 38
+    start_col = 40
+    details_lines = user_details_lines.split('\n')
     
     for i, line in enumerate(details_lines):
         t.gen_text(line, start_row + i, start_col, count=1)
     
-    # Map field names to their exact row positions (counting from start_row)
-    # Row offsets from start_row=4:
-    # 0: OR-6@GitHub
-    # 1: ================
-    # 2: OS
-    # 3: Host
-    # 4: Kernel
-    # 5: Uptime
-    # 6: IDE
-    # 7: (blank)
-    # 8: Contact
-    # 9: ================
-    # 10: Discord
-    # 11: Instagram
-    # 12: Email
-    # 13: (blank)
-    # 14: GitHub Stats
-    # 15: ================
-    # 16: Rating
-    # 17: Stars Earned
-    # 18: Commits
-    # 19: Total PRs
-    # 20: Merged PR
-    # 21: Contributions
-    # 22: Top Languages
-    
+    # Calculate exact positions for animated field
     field_positions = {
-        "Discord": (start_row + 10, start_col + 11),      # "Discord:   " = 11 chars
-        "Instagram": (start_row + 11, start_col + 11),    # "Instagram: " = 11 chars
-        "Email": (start_row + 12, start_col + 11),        # "Email:     " = 11 chars
-        "Rating": (start_row + 16, start_col + 15),       # "Rating:        " = 15 chars
-        "Stars Earned": (start_row + 17, start_col + 15), # "Stars Earned:  " = 15 chars
-        "Commits": (start_row + 18, start_col + 15),      # "Commits (YEAR):  " varies, approx 17
-        "Total PRs": (start_row + 19, start_col + 15),    # "Total PRs:     " = 15 chars
-        "Merged PR": (start_row + 20, start_col + 15),    # "Merged PR:     " = 15 chars
-        "Contributions": (start_row + 21, start_col + 15), # "Contributions: " = 15 chars
+        "Discord": (start_row + 10, start_col + 11),
+        "Instagram": (start_row + 11, start_col + 11),
+        "Email": (start_row + 12, start_col + 11),
+        "Rating": (start_row + 16, start_col + 15),
+        "Stars Earned": (start_row + 17, start_col + 15),
+        "Commits": (start_row + 18, start_col + 17),
+        "Total PRs": (start_row + 19, start_col + 15),
+        "Merged PR": (start_row + 20, start_col + 15),
+        "Contributions": (start_row + 21, start_col + 15),
     }
     
-    # Wait a bit before animating
-    t.clone_frame(10)
+    # Wait before animation
+    t.clone_frame(15)
     
-    # Simulate cursor navigation and filling the animated field
+    # Animate the random field
     if animated_field in field_positions:
         field_row, field_col = field_positions[animated_field]
+        value = user_data[animated_field]
         
-        # Show cursor and navigate to the field row by row
+        # Show visible cursor movement - start from a visible position
         t.toggle_show_cursor(True)
         
-        # Start from somewhere above and move down
-        current_row = start_row + 5
-        t.gen_text("", current_row, start_col, count=2)
+        # Start cursor at beginning of text area
+        start_nav_row = start_row + 8
+        t.gen_text("", start_nav_row, start_col + 5, count=5)
         
-        # Move cursor down to target row
-        while current_row < field_row:
-            current_row += 1
-            t.gen_text("", current_row, start_col, count=2)
+        # Move cursor down slowly and visibly
+        for nav_row in range(start_nav_row + 1, field_row + 1):
+            t.gen_text("", nav_row, start_col + 5, count=4)
         
-        # Move cursor to the right column
-        t.gen_text("", field_row, field_col, count=3)
+        # Move cursor right to the field
+        t.gen_text("", field_row, field_col - 5, count=3)
+        t.gen_text("", field_row, field_col, count=5)
         
-        # Type the value slowly character by character
-        value = user_data[animated_field]
+        # Type each character slowly
         for char in value:
-            t.gen_text(f"\x1b[93m{char}", field_row, count=2, contin=True)
+            t.gen_text(f"\x1b[93m{char}\x1b[0m", field_row, count=3, contin=True)
         
         t.toggle_show_cursor(False)
-        t.clone_frame(5)
+        t.clone_frame(8)
     
-    # Hold the display longer
+    # Hold display
     t.clone_frame(80)
     
-    # Nano-style bottom bar with proper alignment
+    # Proper nano-style bottom bar
     t.set_font(FONT_FILE_BITMAP, 15)
-    bottom_bar = "\x1b[30;107m ^X Exit   ^O Save   ^R Read   ^W Where   ^K Cut   ^U Paste \x1b[0m"
-    t.gen_text(bottom_bar, t.num_rows, 1, count=30)
     
-    # Simulate pressing ^X (Ctrl+X) - show prompt above the bar
+    # Create proper nano bar spanning full width
+    nano_commands = "^X Exit  ^O Save  ^R Read  ^W Where  ^K Cut  ^U Paste"
+    # Make bar with inverted colors
+    t.gen_text(f"\x1b[30;107m {nano_commands:<{t.num_cols-2}} \x1b[0m", t.num_rows, 1, count=30)
+    
+    # Show exit prompt on the line above
     t.gen_text("\x1b[93mSave modified buffer? (Y/N) \x1b[0m", t.num_rows - 1, 1, count=8)
     t.toggle_show_cursor(True)
     t.gen_text("\x1b[92mN\x1b[0m", t.num_rows - 1, count=5, contin=True)
     t.toggle_show_cursor(False)
+    t.clone_frame(10)
     
-    # Clear and show goodbye message
+    # Clear and goodbye
     t.clear_frame()
     t.gen_text("", 1, count=5)
     
@@ -332,7 +311,6 @@ def main():
     t.gen_text("\x1b[92m>> Thanks for visiting! Keep coding and stay curious.\x1b[0m", goodbye_row + 2, count=20)
     t.gen_text("\x1b[93m>> See you soon, developer!\x1b[0m", goodbye_row + 4, count=30)
     
-    # Fade out
     t.gen_text("", 1, count=20)
 
     # Generate Output
