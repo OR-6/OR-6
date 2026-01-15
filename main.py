@@ -195,71 +195,78 @@ def main():
     t.gen_text("\x1b[92mcorefetch\x1b[0m", 1, count=3, contin=True)
     t.gen_text(" --user OR-6 --format dev", 1, count=5, contin=True)
 
-    # Enhanced Mona ASCII Art with gradient colors
+    # Mona ASCII Art - Single color (GitHub's signature color)
     t.set_font(FONT_FILE_MONA, 18, 0)
     t.toggle_show_cursor(False)
     
-    # Colorful Mona with gradient effect
+    # GitHub-style monochrome Mona
     mona_lines = [
-        "\x1b[95m     }}     }}",
-        "\x1b[95m    }}}}   }}}}",
-        "\x1b[94m    }}}}} }}}}}",
-        "\x1b[94m   }}}}}}}}}}}}}",
-        "\x1b[96m   }}}}}}}}}}}}}}",
-        "\x1b[96m   }}}}}}}}}}}}}}",
-        "\x1b[96m  }}}}}}}}}}}}}}",
-        "\x1b[36m  }}}}}}}}}}}}}}",
-        "\x1b[36m  }}}}}}}}}}}}}}",
-        "\x1b[92m}}}}}}}}}}}}}}}}}",
-        "\x1b[92m  }}}}}}}}}}}}}}",
-        "\x1b[93m }}}}}}}}}}}}}}}}",
-        "\x1b[93m}  }}}}}}}}}}  }",
-        "\x1b[93m        }}}}}",
-        "\x1b[91m       }}}}}}}",
-        "\x1b[91m       }}}}}}}}",
-        "\x1b[91m      }}}}}}}}}}",
-        "\x1b[95m     }}}}}}}}}}}",
-        "\x1b[95m     }}}}}}}}}}}}",
-        "\x1b[94m     }} }}}}}} }}",
-        "\x1b[96m        }}}}}}}",
-        "\x1b[96m         }}} }}",
+        "     }}     }}",
+        "    }}}}   }}}}",
+        "    }}}}} }}}}}",
+        "   }}}}}}}}}}}}}",
+        "   }}}}}}}}}}}}}}",
+        "   }}}}}}}}}}}}}}",
+        "  }}}}}}}}}}}}}}",
+        "  }}}}}}}}}}}}}}",
+        "  }}}}}}}}}}}}}}",
+        "}}}}}}}}}}}}}}}}}",
+        "  }}}}}}}}}}}}}}",
+        " }}}}}}}}}}}}}}}}",
+        "}  }}}}}}}}}}  }",
+        "        }}}}}",
+        "       }}}}}}}",
+        "       }}}}}}}}",
+        "      }}}}}}}}}}",
+        "     }}}}}}}}}}}",
+        "     }}}}}}}}}}}}",
+        "     }} }}}}}} }}",
+        "        }}}}}}}",
+        "         }}} }}",
     ]
     
-    # Display Mona at row 3, column 2 (better positioning)
+    # Display Mona faster (count=1 instead of count=3)
     for i, line in enumerate(mona_lines):
-        t.gen_text(line + "\x1b[0m", 3 + i, 2, count=3)
+        t.gen_text("\x1b[96m" + line + "\x1b[0m", 3 + i, 2, count=1)
 
-    # Display User Details initially
+    # Display User Details initially without animated field
     t.set_font(FONT_FILE_BITMAP)
     t.toggle_show_cursor(False)
-    t.gen_text(user_details_lines, 4, 38, count=5)
+    t.gen_text(user_details_lines, 4, 38, count=3)
     
-    # Map field names to their row positions (relative to start row 4)
-    field_positions = {
-        "Discord": 12,      # row 4 + 8 lines down
-        "Instagram": 13,
-        "Email": 14,
-        "Rating": 18,
-        "Stars Earned": 19,
-        "Commits": 20,
-        "Total PRs": 21,
-        "Merged PR": 22,
-        "Contributions": 23,
+    # Map field names to their exact row and column positions
+    field_info = {
+        "Discord": (12, 49),      # row, starting column for value
+        "Instagram": (13, 49),
+        "Email": (14, 49),
+        "Rating": (18, 53),
+        "Stars Earned": (19, 53),
+        "Commits": (20, 53),
+        "Total PRs": (21, 53),
+        "Merged PR": (22, 53),
+        "Contributions": (23, 53),
     }
     
-    # Simulate filling the animated field
-    if animated_field in field_positions:
-        field_row = field_positions[animated_field]
-        field_col = 38 + 15  # Approximate column where values start
+    # Simulate cursor navigation and filling the animated field
+    if animated_field in field_info:
+        field_row, field_col = field_info[animated_field]
         
-        # Position cursor at the field
+        # Pause before navigation
+        t.clone_frame(5)
+        
+        # Show cursor navigating down (simulate arrow key presses)
         t.toggle_show_cursor(True)
-        t.gen_text("", field_row, field_col, count=5)
+        start_row = 4
+        for nav_row in range(start_row, field_row + 1, 2):
+            t.gen_text("", nav_row, field_col, count=1)
         
-        # Type the value character by character
+        # Position at the exact field
+        t.gen_text("", field_row, field_col, count=3)
+        
+        # Type the value slowly character by character
         value = user_data[animated_field]
         for char in value:
-            t.gen_text(f"\x1b[93m{char}", field_row, count=2, contin=True)
+            t.gen_text(f"\x1b[93m{char}", field_row, count=3, contin=True)
         
         t.toggle_show_cursor(False)
         t.gen_text("", field_row, count=5)
@@ -267,16 +274,17 @@ def main():
     # Hold the display longer
     t.clone_frame(80)
     
-    # Nano-style bottom bar (more authentic)
+    # Nano-style bottom bar with proper alignment
     t.set_font(FONT_FILE_BITMAP, 15)
-    bottom_bar = "\x1b[30;107m ^X Exit  ^O Save  ^R Read  ^W Where Is  ^K Cut  ^U Paste      \x1b[0m"
+    # Create a full-width bar
+    bar_width = t.num_cols
+    bottom_bar = "\x1b[30;107m ^X Exit   ^O Save   ^R Read   ^W Where   ^K Cut   ^U Paste \x1b[0m"
     t.gen_text(bottom_bar, t.num_rows, 1, count=30)
     
-    # Simulate pressing ^X (Ctrl+X)
-    t.gen_text("", t.num_rows - 2, 1, count=5)
-    t.gen_text("\x1b[93mSave modified buffer? (Y/N)\x1b[0m", t.num_rows - 2, 1, count=10)
+    # Simulate pressing ^X (Ctrl+X) - show prompt above the bar
+    t.gen_text("\x1b[93mSave modified buffer? (Y/N) \x1b[0m", t.num_rows - 1, 1, count=8)
     t.toggle_show_cursor(True)
-    t.gen_text(" \x1b[92mN\x1b[0m", t.num_rows - 2, count=5, contin=True)
+    t.gen_text("\x1b[92mN\x1b[0m", t.num_rows - 1, count=5, contin=True)
     t.toggle_show_cursor(False)
     
     # Clear and show goodbye message
