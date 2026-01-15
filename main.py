@@ -195,23 +195,23 @@ def main():
     t.gen_text("\x1b[92mcorefetch\x1b[0m", 1, count=3, contin=True)
     t.gen_text(" --user OR-6 --format dev", 1, count=5, contin=True)
 
-    # Mona ASCII Art - Single color (GitHub's signature color)
+    # GitHub Mona ASCII Art with facial features
     t.set_font(FONT_FILE_MONA, 18, 0)
     t.toggle_show_cursor(False)
     
-    # GitHub-style monochrome Mona
+    # Proper Mona with eyes, nose, and smile
     mona_lines = [
         "     }}     }}",
         "    }}}}   }}}}",
         "    }}}}} }}}}}",
         "   }}}}}}}}}}}}}",
-        "   }}}}}}}}}}}}}}",
-        "   }}}}}}}}}}}}}}",
+        "   }}  }}}}}}  }}",      # Eyes line
+        "   }} }}}}}}}} }}",
         "  }}}}}}}}}}}}}}",
-        "  }}}}}}}}}}}}}}",
+        "  }}}}  }}  }}}}",        # Nose area
         "  }}}}}}}}}}}}}}",
         "}}}}}}}}}}}}}}}}}",
-        "  }}}}}}}}}}}}}}",
+        "  }} }}}}}} }}",          # Smile/mouth
         " }}}}}}}}}}}}}}}}",
         "}  }}}}}}}}}}  }",
         "        }}}}}",
@@ -225,59 +225,95 @@ def main():
         "         }}} }}",
     ]
     
-    # Display Mona faster (count=1 instead of count=3)
+    # Display Mona
     for i, line in enumerate(mona_lines):
         t.gen_text("\x1b[96m" + line + "\x1b[0m", 3 + i, 2, count=1)
 
     # Display User Details initially without animated field
     t.set_font(FONT_FILE_BITMAP)
     t.toggle_show_cursor(False)
-    t.gen_text(user_details_lines, 4, 38, count=3)
     
-    # Map field names to their exact row and column positions
-    field_info = {
-        "Discord": (12, 49),      # row, starting column for value
-        "Instagram": (13, 49),
-        "Email": (14, 49),
-        "Rating": (18, 53),
-        "Stars Earned": (19, 53),
-        "Commits": (20, 53),
-        "Total PRs": (21, 53),
-        "Merged PR": (22, 53),
-        "Contributions": (23, 53),
+    # Split the lines and display them one by one to get exact row positions
+    details_lines = user_details_lines.split('\n')
+    start_row = 4
+    start_col = 38
+    
+    for i, line in enumerate(details_lines):
+        t.gen_text(line, start_row + i, start_col, count=1)
+    
+    # Map field names to their exact row positions (counting from start_row)
+    # Row offsets from start_row=4:
+    # 0: OR-6@GitHub
+    # 1: ================
+    # 2: OS
+    # 3: Host
+    # 4: Kernel
+    # 5: Uptime
+    # 6: IDE
+    # 7: (blank)
+    # 8: Contact
+    # 9: ================
+    # 10: Discord
+    # 11: Instagram
+    # 12: Email
+    # 13: (blank)
+    # 14: GitHub Stats
+    # 15: ================
+    # 16: Rating
+    # 17: Stars Earned
+    # 18: Commits
+    # 19: Total PRs
+    # 20: Merged PR
+    # 21: Contributions
+    # 22: Top Languages
+    
+    field_positions = {
+        "Discord": (start_row + 10, start_col + 11),      # "Discord:   " = 11 chars
+        "Instagram": (start_row + 11, start_col + 11),    # "Instagram: " = 11 chars
+        "Email": (start_row + 12, start_col + 11),        # "Email:     " = 11 chars
+        "Rating": (start_row + 16, start_col + 15),       # "Rating:        " = 15 chars
+        "Stars Earned": (start_row + 17, start_col + 15), # "Stars Earned:  " = 15 chars
+        "Commits": (start_row + 18, start_col + 15),      # "Commits (YEAR):  " varies, approx 17
+        "Total PRs": (start_row + 19, start_col + 15),    # "Total PRs:     " = 15 chars
+        "Merged PR": (start_row + 20, start_col + 15),    # "Merged PR:     " = 15 chars
+        "Contributions": (start_row + 21, start_col + 15), # "Contributions: " = 15 chars
     }
     
+    # Wait a bit before animating
+    t.clone_frame(10)
+    
     # Simulate cursor navigation and filling the animated field
-    if animated_field in field_info:
-        field_row, field_col = field_info[animated_field]
+    if animated_field in field_positions:
+        field_row, field_col = field_positions[animated_field]
         
-        # Pause before navigation
-        t.clone_frame(5)
-        
-        # Show cursor navigating down (simulate arrow key presses)
+        # Show cursor and navigate to the field row by row
         t.toggle_show_cursor(True)
-        start_row = 4
-        for nav_row in range(start_row, field_row + 1, 2):
-            t.gen_text("", nav_row, field_col, count=1)
         
-        # Position at the exact field
+        # Start from somewhere above and move down
+        current_row = start_row + 5
+        t.gen_text("", current_row, start_col, count=2)
+        
+        # Move cursor down to target row
+        while current_row < field_row:
+            current_row += 1
+            t.gen_text("", current_row, start_col, count=2)
+        
+        # Move cursor to the right column
         t.gen_text("", field_row, field_col, count=3)
         
         # Type the value slowly character by character
         value = user_data[animated_field]
         for char in value:
-            t.gen_text(f"\x1b[93m{char}", field_row, count=3, contin=True)
+            t.gen_text(f"\x1b[93m{char}", field_row, count=2, contin=True)
         
         t.toggle_show_cursor(False)
-        t.gen_text("", field_row, count=5)
+        t.clone_frame(5)
     
     # Hold the display longer
     t.clone_frame(80)
     
     # Nano-style bottom bar with proper alignment
     t.set_font(FONT_FILE_BITMAP, 15)
-    # Create a full-width bar
-    bar_width = t.num_cols
     bottom_bar = "\x1b[30;107m ^X Exit   ^O Save   ^R Read   ^W Where   ^K Cut   ^U Paste \x1b[0m"
     t.gen_text(bottom_bar, t.num_rows, 1, count=30)
     
