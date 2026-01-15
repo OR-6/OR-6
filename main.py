@@ -1,6 +1,7 @@
 from datetime import datetime
 import gifos
 from zoneinfo import ZoneInfo
+import random
 
 FONT_FILE_LOGO = "./fonts/vtks-blocketo.regular.ttf"
 FONT_FILE_BITMAP = "./fonts/gohufont-uni-14.pil"
@@ -10,7 +11,6 @@ FONT_FILE_MONA = "./fonts/Inversionz.otf"
 
 def gen_custom_prompt(t, row, user="or6", host="core", symbol=">>"):
     """Custom prompt with fancy ASCII-safe design"""
-    # Fancy box drawing characters that are Latin-1 safe
     prompt = f"\x1b[96m[\x1b[95m{user}\x1b[96m@\x1b[93m{host}\x1b[96m]\x1b[0m \x1b[92m{symbol}\x1b[0m "
     t.gen_text(prompt, row)
 
@@ -22,7 +22,7 @@ def main():
     t.toggle_show_cursor(False)
     year_now = datetime.now(ZoneInfo("Asia/Kolkata")).strftime("%Y")
     
-    # BIOS Screen - More realistic
+    # BIOS Screen
     t.gen_text("CoreOS UEFI BIOS v2.5.1247", 1)
     t.gen_text(f"Copyright (C) 2015-{year_now}, \x1b[31mOR-6 Technologies\x1b[0m", 2)
     t.gen_text("\x1b[94mGitHub Profile System BIOS - Build 2025.01.14\x1b[0m", 4)
@@ -32,7 +32,7 @@ def main():
         t.num_rows,
     )
     
-    # Memory Test with more realistic progression
+    # Memory Test
     for i in range(0, 65653, 7168):
         t.delete_row(7)
         if i < 30000:
@@ -43,7 +43,7 @@ def main():
     t.gen_text("Memory Test: 64KB \x1b[92mPASSED\x1b[0m", 7, count=10, contin=True)
     t.gen_text("", 11, count=10, contin=True)
 
-    # Enhanced Boot Sequence - Linux-style with more steps
+    # Boot Sequence
     t.clear_frame()
     t.gen_text("\x1b[96m[    0.000000]\x1b[0m Initializing kernel", 1, count=3)
     t.gen_text("\x1b[96m[    0.124751]\x1b[0m CPU: Quantum-Core detected", 2, count=2)
@@ -71,14 +71,13 @@ def main():
     
     t.gen_text("", row, count=8)
     
-    # OS Logo Animation - CLEAR SCREEN FIRST to avoid artifacts
+    # OS Logo Animation
     t.clear_frame()
     t.set_font(FONT_FILE_LOGO, 66)
     os_logo_text = "CORE OS"
     mid_row = (t.num_rows + 1) // 2
     mid_col = (t.num_cols - len(os_logo_text) + 1) // 2
     
-    # Add blank frames before logo animation
     t.clone_frame(3)
     
     effect_lines = gifos.effects.text_scramble_effect_lines(
@@ -88,7 +87,6 @@ def main():
         t.delete_row(mid_row + 1)
         t.gen_text(effect_lines[i], mid_row + 1, mid_col + 1)
     
-    # Hold the logo longer
     t.clone_frame(10)
 
     # Login Screen
@@ -114,13 +112,13 @@ def main():
     t.gen_text(f"Last login: {time_now} on tty1", 7, count=5)
     t.gen_text("", 8, count=5)
 
-    # Shell prompt with custom branding - FIX: slower typing
+    # Shell prompt
     gen_custom_prompt(t, 9)
     prompt_col = t.curr_col
     t.clone_frame(8)
     t.toggle_show_cursor(True)
     
-    # Type "clear" slower with visible characters
+    # Type "clear" slower
     t.gen_text("\x1b[91mc", 9, count=2, contin=True)
     t.gen_text("\x1b[91ml", 9, count=2, contin=True)
     t.gen_text("\x1b[91me", 9, count=2, contin=True)
@@ -136,7 +134,23 @@ def main():
     t.clear_frame()
     top_languages = [lang[0] for lang in git_user_details.languages_sorted]
     
-    # ASCII-only separators to avoid encoding issues
+    # Prepare user details data
+    user_data = {
+        "Discord": "_or1_",
+        "Instagram": "kaunnumi",
+        "Email": "ornor6@gmail.com",
+        "Rating": git_user_details.user_rank.level,
+        "Stars Earned": str(git_user_details.total_stargazers),
+        "Commits": str(git_user_details.total_commits_last_year),
+        "Total PRs": str(git_user_details.total_pull_requests_made),
+        "Merged PR": f"{git_user_details.pull_requests_merge_percentage}%",
+        "Contributions": str(git_user_details.total_repo_contributions),
+    }
+    
+    # Pick a random field to animate filling
+    animated_field = random.choice(list(user_data.keys()))
+    
+    # Build user details with placeholder for animated field
     user_details_lines = f"""\x1b[30;101m OR-6@GitHub \x1b[0m
 ================
 \x1b[96mOS:     \x1b[93mWindows 11, Android 14\x1b[0m
@@ -147,18 +161,18 @@ def main():
 
 \x1b[30;102m Contact \x1b[0m
 ================
-\x1b[96mDiscord:   \x1b[93m_or1_\x1b[0m
-\x1b[96mInstagram: \x1b[93mkaunnumi\x1b[0m
-\x1b[96mEmail:     \x1b[93mornor6@gmail.com\x1b[0m
+\x1b[96mDiscord:   \x1b[93m{user_data['Discord'] if animated_field != 'Discord' else ''}\x1b[0m
+\x1b[96mInstagram: \x1b[93m{user_data['Instagram'] if animated_field != 'Instagram' else ''}\x1b[0m
+\x1b[96mEmail:     \x1b[93m{user_data['Email'] if animated_field != 'Email' else ''}\x1b[0m
 
 \x1b[30;104m GitHub Stats \x1b[0m
 ================
-\x1b[96mRating:        \x1b[93m{git_user_details.user_rank.level}\x1b[0m
-\x1b[96mStars Earned:  \x1b[93m{git_user_details.total_stargazers}\x1b[0m
-\x1b[96mCommits ({int(year_now) - 1}):  \x1b[93m{git_user_details.total_commits_last_year}\x1b[0m
-\x1b[96mTotal PRs:     \x1b[93m{git_user_details.total_pull_requests_made}\x1b[0m
-\x1b[96mMerged PR:     \x1b[93m{git_user_details.pull_requests_merge_percentage}%\x1b[0m
-\x1b[96mContributions: \x1b[93m{git_user_details.total_repo_contributions}\x1b[0m
+\x1b[96mRating:        \x1b[93m{user_data['Rating'] if animated_field != 'Rating' else ''}\x1b[0m
+\x1b[96mStars Earned:  \x1b[93m{user_data['Stars Earned'] if animated_field != 'Stars Earned' else ''}\x1b[0m
+\x1b[96mCommits ({int(year_now) - 1}):  \x1b[93m{user_data['Commits'] if animated_field != 'Commits' else ''}\x1b[0m
+\x1b[96mTotal PRs:     \x1b[93m{user_data['Total PRs'] if animated_field != 'Total PRs' else ''}\x1b[0m
+\x1b[96mMerged PR:     \x1b[93m{user_data['Merged PR'] if animated_field != 'Merged PR' else ''}\x1b[0m
+\x1b[96mContributions: \x1b[93m{user_data['Contributions'] if animated_field != 'Contributions' else ''}\x1b[0m
 \x1b[96mTop Languages: \x1b[93m{', '.join(top_languages[:5])}\x1b[0m"""
     
     gen_custom_prompt(t, 1)
@@ -166,7 +180,7 @@ def main():
     t.clone_frame(10)
     t.toggle_show_cursor(True)
     
-    # Type "corefetch" slower character by character
+    # Type "corefetch" slower
     t.gen_text("\x1b[91mc", 1, count=2, contin=True)
     t.gen_text("\x1b[91mo", 1, count=2, contin=True)
     t.gen_text("\x1b[91mr", 1, count=2, contin=True)
@@ -181,49 +195,89 @@ def main():
     t.gen_text("\x1b[92mcorefetch\x1b[0m", 1, count=3, contin=True)
     t.gen_text(" --user OR-6 --format dev", 1, count=5, contin=True)
 
-    # Mona ASCII Art - FIX: position at row 4 with left padding
-    t.set_font(FONT_FILE_MONA, 16, 0)
+    # Enhanced Mona ASCII Art with gradient colors
+    t.set_font(FONT_FILE_MONA, 18, 0)
     t.toggle_show_cursor(False)
-    monaLines = r"""     }}     }}
-    }}}}   }}}}
-    }}}}} }}}}}
-   }}}}}}}}}}}}}
-   }}}}}}}}}}}}}}
-   }}}}}}}}}}}}}}
-  }}}}}}}}}}}}}}
-  }}}}}}}}}}}}}}
-  }}}}}}}}}}}}}}
-}}}}}}}}}}}}}}}}}
-  }}}}}}}}}}}}}}
- }}}}}}}}}}}}}}}}
-}  }}}}}}}}}}  }
-        }}}}}
-       }}}}}}}
-       }}}}}}}}
-      }}}}}}}}}}
-     }}}}}}}}}}}
-     }}}}}}}}}}}}
-     }} }}}}}} }}
-        }}}}}}}
-         }}} }}"""
     
-    # Display Mona at column 3 (left padding)
-    t.gen_text(monaLines, 4, 3, count=5)
+    # Colorful Mona with gradient effect
+    mona_lines = [
+        "\x1b[95m     }}     }}",
+        "\x1b[95m    }}}}   }}}}",
+        "\x1b[94m    }}}}} }}}}}",
+        "\x1b[94m   }}}}}}}}}}}}}",
+        "\x1b[96m   }}}}}}}}}}}}}}",
+        "\x1b[96m   }}}}}}}}}}}}}}",
+        "\x1b[96m  }}}}}}}}}}}}}}",
+        "\x1b[36m  }}}}}}}}}}}}}}",
+        "\x1b[36m  }}}}}}}}}}}}}}",
+        "\x1b[92m}}}}}}}}}}}}}}}}}",
+        "\x1b[92m  }}}}}}}}}}}}}}",
+        "\x1b[93m }}}}}}}}}}}}}}}}",
+        "\x1b[93m}  }}}}}}}}}}  }",
+        "\x1b[93m        }}}}}",
+        "\x1b[91m       }}}}}}}",
+        "\x1b[91m       }}}}}}}}",
+        "\x1b[91m      }}}}}}}}}}",
+        "\x1b[95m     }}}}}}}}}}}",
+        "\x1b[95m     }}}}}}}}}}}}",
+        "\x1b[94m     }} }}}}}} }}",
+        "\x1b[96m        }}}}}}}",
+        "\x1b[96m         }}} }}",
+    ]
+    
+    # Display Mona at row 3, column 2 (better positioning)
+    for i, line in enumerate(mona_lines):
+        t.gen_text(line + "\x1b[0m", 3 + i, 2, count=3)
 
-    # Display User Details - with proper positioning (column 40 for better spacing)
+    # Display User Details initially
     t.set_font(FONT_FILE_BITMAP)
     t.toggle_show_cursor(False)
-    t.gen_text(user_details_lines, 4, 40, count=10)
+    t.gen_text(user_details_lines, 4, 38, count=5)
     
-    # Hold the full display for much longer so people can read
+    # Map field names to their row positions (relative to start row 4)
+    field_positions = {
+        "Discord": 12,      # row 4 + 8 lines down
+        "Instagram": 13,
+        "Email": 14,
+        "Rating": 18,
+        "Stars Earned": 19,
+        "Commits": 20,
+        "Total PRs": 21,
+        "Merged PR": 22,
+        "Contributions": 23,
+    }
+    
+    # Simulate filling the animated field
+    if animated_field in field_positions:
+        field_row = field_positions[animated_field]
+        field_col = 38 + 15  # Approximate column where values start
+        
+        # Position cursor at the field
+        t.toggle_show_cursor(True)
+        t.gen_text("", field_row, field_col, count=5)
+        
+        # Type the value character by character
+        value = user_data[animated_field]
+        for char in value:
+            t.gen_text(f"\x1b[93m{char}", field_row, count=2, contin=True)
+        
+        t.toggle_show_cursor(False)
+        t.gen_text("", field_row, count=5)
+    
+    # Hold the display longer
     t.clone_frame(80)
     
-    # Add nano-style quit prompt at the bottom
-    t.gen_text("", t.num_rows - 1)
-    t.gen_text("\x1b[90mPress \x1b[97mQ\x1b[90m to quit\x1b[0m", t.num_rows - 1, count=30)
+    # Nano-style bottom bar (more authentic)
+    t.set_font(FONT_FILE_BITMAP, 15)
+    bottom_bar = "\x1b[30;107m ^X Exit  ^O Save  ^R Read  ^W Where Is  ^K Cut  ^U Paste      \x1b[0m"
+    t.gen_text(bottom_bar, t.num_rows, 1, count=30)
     
-    # Simulate pressing Q
-    t.gen_text("\x1b[90mPress \x1b[97mQ\x1b[90m to quit\x1b[0m", t.num_rows - 1, count=5)
+    # Simulate pressing ^X (Ctrl+X)
+    t.gen_text("", t.num_rows - 2, 1, count=5)
+    t.gen_text("\x1b[93mSave modified buffer? (Y/N)\x1b[0m", t.num_rows - 2, 1, count=10)
+    t.toggle_show_cursor(True)
+    t.gen_text(" \x1b[92mN\x1b[0m", t.num_rows - 2, count=5, contin=True)
+    t.toggle_show_cursor(False)
     
     # Clear and show goodbye message
     t.clear_frame()
