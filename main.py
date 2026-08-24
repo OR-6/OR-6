@@ -154,7 +154,7 @@ def main():
     user_details_lines = f"""\x1b[30;101m OR-6@GitHub \x1b[0m
 ================
 \x1b[96mOS:     \x1b[93mWindows 11, Android 14\x1b[0m
-\x1b[96mHost:   \x1b[93mDelhi Public School\x1b[94m #DPS\x1b[0m
+\x1b[96mHost:   \x1b[93mVrije University Amsterdam\x1b[94m #FREE\x1b[0m
 \x1b[96mKernel: \x1b[93mComputer Science\x1b[0m
 \x1b[96mUptime: \x1b[93m{user_age.years}y {user_age.months}m {user_age.days}d\x1b[0m
 \x1b[96mIDE:    \x1b[93mVSCode\x1b[0m
